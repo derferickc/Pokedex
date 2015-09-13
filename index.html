@@ -1,0 +1,94 @@
+<!DOCTYPE html>​
+​<html lang="en">​
+​<head>​
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">​
+    <title>Original Pokémon Pokédex</title>​
+    <style>
+/*    *{
+        outline: 1px solid red;
+    }
+*/
+        #pokemon{
+            max-width: 750px;
+            display: inline-block;
+        }
+
+        #dex{
+            position: fixed;
+            width: 220px;
+            border: 2px solid red;
+            vertical-align: top;
+            padding-left: 30px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+            display: inline-block;
+        }
+
+            #dex h3{
+                margin-left: 30px;
+            }
+
+        #body{
+            padding-left: 100px;
+            display: inline-block;
+        }
+
+        #title{
+            margin-left: 100px;
+        }
+    </style>​
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>​
+    <script>
+        $(document).ready(function()
+        {
+            var poke = '';
+            for(var i = 1; i <= 151; i++)
+            {
+                poke += '<img id="'+i+'" src="http://pokeapi.co/media/img/'+i+'.png">';
+            }
+            $('#pokemon').html(poke);
+            $('img').click(function()
+            {
+                var id = $(this).attr('id');
+                // alert(id); <-- testing whether or not the id was being captured by my syntax
+                $.get('http://pokeapi.co/api/v1/pokemon/'+id, function(pokemon)
+                {
+                    var pokedex = '';
+                    pokedex += '<h2>'+pokemon.name+'</h2>';
+                    pokedex += '<img src="http://pokeapi.co/media/img/'+id+'.png">';
+                    pokedex += '<h4>Type(s)</h4>';
+                    pokedex += '<ul>';
+                    for(var i = 0; i < pokemon.types.length; i++)
+                    {
+                        var string = pokemon.types[i].name
+                        var capitalized = string.charAt(0).toUpperCase() + string.substring(1);
+                        pokedex += '<li>'+capitalized+'</li>';
+                    }
+                    pokedex += '</ul><h4>Height (ft)</h4>';
+                    pokedex += pokemon.height;
+                    pokedex += '<h4>Weight (lbs)</h4>';
+                    pokedex += pokemon.weight;
+                    $('#dex').html(pokedex);
+                }, 'json');
+            })
+        })
+    </script>​
+
+​</head>​
+​<body>​
+    <div class='container'>
+    <div id='body'>
+        <div id='title'>
+            <h2>Click on a Pokémon to View in Pokédex</h2>
+        </div>
+        <div id='pokemon'></div>
+        <div id='dex'>
+            <h3>Pokédex</h3>
+        </div>​
+    </div>
+</div>
+​</body>​
+​</html>
